@@ -20,7 +20,7 @@ function timeChange(seconds) {
 }
 
 async function getsongs(folder) {
-    let a = await fetch(`/${folder}/`);
+    let a = await fetch(`${folder}/`);
     currFolder = folder;
     let response = await a.text();
     let div = document.createElement("div")
@@ -30,7 +30,7 @@ async function getsongs(folder) {
     for (let index = 0; index < as.length; index++) {
         const element = as[index];
         if (element.href.endsWith(".mp3")) {
-            songs.push(element.href.split(`/${folder}/`)[1])
+            songs.push(element.href.split(`${folder}/`)[1])
         }
     }
 
@@ -41,14 +41,14 @@ async function getsongs(folder) {
     for (const song of songs) {
         songUL.innerHTML = songUL.innerHTML + `
         <li class="items-center">
-                            <img class="invert" src="/assets/icons/music.svg" alt="">
+                            <img class="invert" src="assets/icons/music.svg" alt="">
                             <div class="info">
                                 <div class="named" >${decodeURI(song)}</div>
                                 <div class="font">--Mr. Zain</div>
                             </div>
                             <div class="playnow flex items-center">
                                 <span class="green">PlayNow</span>
-                                <img class="invert svg" src="/assets/icons/play.svg" alt="">
+                                <img class="invert svg" src="assets/icons/play.svg" alt="">
                             </div>
                         </li>`;
 
@@ -66,10 +66,10 @@ async function getsongs(folder) {
 }
 
 const playMusic = (track, pause = false) => {
-    currentSong.src = `/${currFolder}/` + track;
+    currentSong.src = `${currFolder}/` + track;
     if (!pause) {
         currentSong.play();
-        play.src = "/assets/icons/pause.svg";
+        play.src = "assets/icons/pause.svg";
         
     }
     
@@ -96,7 +96,7 @@ const playMusic = (track, pause = false) => {
 let labtitle;
 
 async function displayAlbums() {
-    let a = await fetch('/songs/')
+    let a = await fetch('songs/')
     let response = await a.text();
     let div = document.createElement("div")
     div.innerHTML = response;
@@ -112,12 +112,12 @@ async function displayAlbums() {
             
 
             // get the metadata of the folder 
-            let a = await fetch(`/songs/${folder}/info.json`)
+            let a = await fetch(`songs/${folder}/info.json`)
             let response = await a.json();
             labtitle = folder;
 
             // Fetch songs in the folder
-            const songsResponse = await fetch(`/songs/${folder}/`);
+            const songsResponse = await fetch(`songs/${folder}/`);
             const songsHTML = await songsResponse.text();
             const songsDiv = document.createElement("div");
             songsDiv.innerHTML = songsHTML;
@@ -136,7 +136,7 @@ async function displayAlbums() {
                         <path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z" fill="black"></path>
                     </svg>
                 </div>
-                <div><img src="/songs/${folder}/cover.jpeg" alt="lofi beats"></div>
+                <div><img src="songs/${folder}/cover.jpeg" alt="lofi beats"></div>
                 <h2>${response.title}</h2>
                 <p>${numSongs} ${sing}</p>
             </div> `;
@@ -148,7 +148,7 @@ async function displayAlbums() {
 
                     // Fetch the JSON file associated with the clicked card
                     try {
-                        const response = await fetch(`/songs/${folder}/info.json`);
+                        const response = await fetch(`songs/${folder}/info.json`);
                         const jsonData = await response.json();
 
                         lab.innerHTML = jsonData.title;
@@ -167,7 +167,7 @@ async function displayAlbums() {
         e.addEventListener("click", async item => {
             songs = await getsongs(`songs/${item.currentTarget.dataset.folder}`)
             playMusic(songs[0])
-            // play.src = "/assets/icons/play.svg";
+            // play.src = "assets/icons/play.svg";
 
         })
     })
@@ -187,12 +187,12 @@ async function main() {
     play.addEventListener("click", () => {
         if (currentSong.paused) {
             currentSong.play();
-            play.src = "/assets/icons/pause.svg"
+            play.src = "assets/icons/pause.svg"
         }
 
         else {
             currentSong.pause();
-            play.src = "/assets/icons/play.svg"
+            play.src = "assets/icons/play.svg"
         }
     })
 
@@ -215,7 +215,7 @@ async function main() {
         document.querySelector(".circle").style.width = ((currentSong.currentTime / currentSong.duration) * 100 + 1) + "%";
 
         if (ctime === duration) {
-            play.src = "/assets/icons/play.svg"
+            play.src = "assets/icons/play.svg"
         }
     })
 
@@ -230,7 +230,7 @@ async function main() {
     document.querySelector(".hamburger").addEventListener("click", () => {
         document.querySelector(".left").style.left = "0";
         currentSong.pause();
-        play.src = "/assets/icons/play.svg"
+        play.src = "assets/icons/play.svg"
     })
 
     // add event listener to cross 
@@ -273,13 +273,13 @@ async function main() {
 
         if (e.target.value == 0) {
 
-            volumeIcon.src = '/assets/icons/mute.svg';
+            volumeIcon.src = 'assets/icons/mute.svg';
         } else if (e.target.value < 51) {
 
-            volumeIcon.src = '/assets/icons/low.svg';
+            volumeIcon.src = 'assets/icons/low.svg';
         }
         else {
-            volumeIcon.src = '/assets/icons/volume.svg';
+            volumeIcon.src = 'assets/icons/volume.svg';
         }
 
         percent.innerHTML = e.target.value + "%";
@@ -294,24 +294,24 @@ async function main() {
                 currentSong.volume = 1;
                 document.querySelector(".volrange").value = 100;
                 percent.innerHTML = document.querySelector(".volrange").value + "%";
-                document.querySelector('.volicon').src = '/assets/icons/volume.svg';
+                document.querySelector('.volicon').src = 'assets/icons/volume.svg';
             } else {
                 currentSong.volume = 0;
                 document.querySelector(".volrange").value = 0;
                 percent.innerHTML = document.querySelector(".volrange").value + "%";
-                document.querySelector('.volicon').src = '/assets/icons/mute.svg';
+                document.querySelector('.volicon').src = 'assets/icons/mute.svg';
             }
         } else if (e.keyCode === 76) {
             currentSong.volume = 0.5;
             document.querySelector(".volrange").value = 50;
             percent.innerHTML = document.querySelector(".volrange").value + "%";
-            document.querySelector('.volicon').src = '/assets/icons/low.svg';
+            document.querySelector('.volicon').src = 'assets/icons/low.svg';
         }
         else if (e.keyCode === 72) {
             currentSong.volume = 1;
             document.querySelector(".volrange").value = 100;
             percent.innerHTML = document.querySelector(".volrange").value + "%";
-            document.querySelector('.volicon').src = '/assets/icons/volume.svg';
+            document.querySelector('.volicon').src = 'assets/icons/volume.svg';
         }
     });
 
@@ -322,12 +322,12 @@ async function main() {
             currentSong.volume = 1;
             document.querySelector(".volrange").value = 100;
             percent.innerHTML = document.querySelector(".volrange").value + "%";
-            volicon.src = '/assets/icons/volume.svg';
+            volicon.src = 'assets/icons/volume.svg';
         } else {
             currentSong.volume = 0;
             document.querySelector(".volrange").value = 0;
             percent.innerHTML = document.querySelector(".volrange").value + "%";
-            volicon.src = '/assets/icons/mute.svg';
+            volicon.src = 'assets/icons/mute.svg';
         }
     });
 
